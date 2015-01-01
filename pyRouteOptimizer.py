@@ -1,47 +1,53 @@
 #!/usr/bin/env python
-#
-# pyRouteOptimizer.py - a route optimizer using Dijkstra's Algorithm in Python
-# Copyright (C) Yavor Stoychev 2015 <stoychev.yavor@gmail.com>
-#
-# pyRouteOptimizer is free software: you can redistribute it and/or modify it
-# under the terms of the GNU General Public License as published by the
-# Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# pyRouteOptimizer is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# Input
-#######################
-# The first line contains two space-seperated integers. The first integer represents K, the number of transportation lines,
-# and the second represents D, the position of the destination. 3*K lines follow. The lines are to be interpreted 3 at a time,
-# with each group of 3 lines containing the information for one transportation line. In each group of 3 lines,
-# the first line contains a single integer S indicating the number of stops the transporation lin+1e makes. The second line has S space-seperated integers,
-# in strictly ascending order, indicating the coordinates (0 <= coordinate <= D) of the transporation line's stops. 0 and D (the origin and the destination)
-# will always be present in the sequence. The third line has S-1 space-seperated integers, with the i-th of these integers indicating the cost of riding 
-# the transporation line from its i-th to its (i+1)-th stop.
+"""
+pyRouteOptimizer.py - a route optimizer using Dijkstra's Algorithm in Python
+Copyright (C) Yavor Stoychev 2015 <stoychev.yavor@gmail.com>
+#
+pyRouteOptimizer is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# Output
-#######################
-# The program outputs the cost of the cheapest route from the source to the destination. It assumes all costs are positive.
+pyRouteOptimizer is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+#
+You should have received a copy of the GNU General Public License along
+with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# Input Format Example Follows
+Input
 #######################
-# 2 10
-# 5
-# 0 2 4 6 10
-# 3 4 5 1
-# 4
-# 0 4 9 10
-# 5 10 1
-#######################
-#End of Input Format
+The first line contains two space-seperated integers. The first integer represents K,
+the number of transportation lines, and the second represents D,
+ the position of the destination. 3*K lines follow. The lines are to be interpreted
+3 at a time, with each group of 3 lines containing the information for 
+one transportation line. In each group of 3 lines, the first line contains a single
+integer S indicating the number of stops the transporation line makes. The second 
+line has S space-seperated integers, in strictly ascending order, indicating the 
+coordinates (0 <= coordinate <= D) of the transporation line's stops. 0 and D 
+(the origin and the destination) will always be present in the sequence. 
+The third line has S-1 space-seperated integers, with the i-th of these integers 
+indicating the cost of riding the transporation line from its i-th to its (i+1)-th stop.
 
+Output
+#######################
+The program outputs the cost of the cheapest route from the source to the destination.
+It assumes all costs are positive.
+
+Input Format Example Follows
+#######################
+2 10
+5
+0 2 4 6 10
+3 4 5 1
+4
+0 4 9 10
+5 10 1
+#######################
+End of Input Format
+"""
 
 from sys import stdin, exit
 import heapq
