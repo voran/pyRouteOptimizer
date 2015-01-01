@@ -68,31 +68,43 @@ if __name__ == "__main__":
         stops = set([0])
         adjacent_stops = {}
         costs = {0:0}
-        for train in range(train_count):
+        for train in range(1, train_count + 1):
             stop_count = int(stdin.readline())
             train_stops = [int(stop_entry) for stop_entry in stdin.readline().split(" ")]
             if len(train_stops) != stop_count:
-                print "Expected {} stops for train {} but got {}: ({})" .format(stop_count, train + 1, len(train_stops), train_stops)
-                exit(-1)
+                raise AssertionError("Expected {} stops for train {} but got {}: {}" .format(stop_count, train, len(train_stops), train_stops))
             train_stop_costs = [int(stop_cost_entry) for stop_cost_entry in stdin.readline().split(" ")]
             if len(train_stop_costs) != stop_count - 1:
-                print "Expected {} stop costs for train {} but got {}: ({})" .format(stop_count - 1, train + 1, len(train_stop_costs), train_stop_costs)
-                exit(-1)
+                raise AssertionError("Expected {} stop costs for train {} but got {}: {}" .format(stop_count - 1, train, len(train_stop_costs), train_stop_costs))
 
             stops.update(train_stops)
+
+            if train_stops[0] != 0:
+                raise ValueError("Expected first stop for train {} to be 0, but it was {}" .format(train, train_stops[0]))
+
+            for index in range(1, len(train_stops) - 1):
+                if train_stops[index] not in range(1, destination):
+                    raise ValueError("Expected inner stops to be between [1, {}), but found stop {} for train {}" .format(destination, train_stops[index], train))
+
+            if train_stops[-1] != destination:
+                raise ValueError("Expected last stop for train {} to be {}, but it was {}" .format(train, destination, train_stops[-1]))
+
             for index in range(1, len(train_stops)):
                 start_stop = train_stops[index - 1]
                 end_stop = train_stops[index]
-                if start_stop < end_stop:
-                    if start_stop not in adjacent_stops:
-                        adjacent_stops[start_stop] = set()
-                    adjacent_stops[start_stop].add(end_stop)
-                    
-                    route_key = (start_stop, end_stop)
-                    route_cost = train_stop_costs[index - 1]
-                    if route_key not in route_costs or route_costs[route_key] > route_cost:
-                        route_costs[route_key] = route_cost
+
+                if start_stop >= end_stop:
+                    raise ValueError("Expected start stop ({}) in route segment to be < end stop ({}) for train {}" .format(start_stop, end_stop, train))
+
+                if start_stop not in adjacent_stops:
+                    adjacent_stops[start_stop] = set()
+                adjacent_stops[start_stop].add(end_stop)
                 
+                route_key = (start_stop, end_stop)
+                route_cost = train_stop_costs[index - 1]
+                if route_key not in route_costs or route_costs[route_key] > route_cost:
+                    route_costs[route_key] = route_cost
+            
         while len(stops) > 0:
             current_stop = find_next(stops, costs)
             stops.remove(current_stop)
@@ -110,6 +122,5 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         exit(0)
-    finally:
-        pass
-
+    except Exception, e:
+        print str(e)
