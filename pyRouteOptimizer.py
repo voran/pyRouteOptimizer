@@ -50,7 +50,6 @@ End of Input Format
 """
 
 from sys import stdin, exit
-import heapq
 
 def find_next(stops, costs):
     next_cost = None
