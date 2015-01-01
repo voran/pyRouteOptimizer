@@ -104,7 +104,7 @@ if __name__ == "__main__":
                 if route_key not in route_costs or route_costs[route_key] > route_cost:
                     route_costs[route_key] = route_cost
             
-        while len(stops) > 0:
+        while 1:
             current_stop = find_next(stops, costs)
             stops.remove(current_stop)
             
